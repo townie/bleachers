@@ -1,0 +1,13 @@
+[package]
+name = "benchmark_runner"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+
+# Benchmarks
+std_mpsc_benchmark = { path = "../std_mpsc_benchmark" }
+tokio_mpsc_benchmark = { path = "../tokio_mpsc_benchmark" }
+crossbeam_mpsc_benchmark = { path = "../crossbeam_mpsc_benchmark" }
+disruptor_benchmark = { path = "../disruptor_benchmark" }

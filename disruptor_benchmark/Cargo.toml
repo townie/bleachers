@@ -1,0 +1,7 @@
+[package]
+name = "disruptor_benchmark"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+disruptor = "3.2.0"

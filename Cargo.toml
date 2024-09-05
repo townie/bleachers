@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+members = [
+    "benchmark_runner",
+    "crossbeam_mpsc_benchmark",
+    "disruptor_benchmark",
+    "std_mpsc_benchmark",
+    "tokio_mpsc_benchmark",
+]
+
+[workspace.dependencies]
