@@ -1,0 +1,7 @@
+[package]
+name = "concurrent_queue_benchmark"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+concurrent-queue = "2.5.0"

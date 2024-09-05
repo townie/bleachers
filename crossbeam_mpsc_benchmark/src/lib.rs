@@ -8,14 +8,20 @@ pub fn run_benchmark(num_messages: i32) {
     let start = Instant::now();
 
     let producer = thread::spawn(move || {
-        for _ in 0..num_messages {
-            tx.send(1).unwrap();
+        for i in 0..num_messages {
+            tx.send(i).unwrap();
         }
     });
 
-    let consumer = thread::spawn(move || {
-        for _ in 0..num_messages {
-            let _ = rx.recv().unwrap();
+    let consumer = thread::spawn(move || loop {
+        match rx.recv() {
+            Ok(val) => {
+                if val == 999_999 {
+                    println!("Received last message: {}", val);
+                    break;
+                }
+            }
+            Err(e) => {}
         }
     });
 
@@ -23,5 +29,9 @@ pub fn run_benchmark(num_messages: i32) {
     consumer.join().unwrap();
 
     let duration = start.elapsed();
-    println!("crossbeam::channel time: {:?}", duration);
+
+    println!(
+        "crossbeam::channel  {} messages in {:?}",
+        num_messages, duration
+    );
 }

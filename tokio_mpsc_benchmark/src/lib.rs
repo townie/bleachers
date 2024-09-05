@@ -24,5 +24,5 @@ pub async fn run_benchmark(num_messages: i32) {
     consumer.await.unwrap();
 
     let duration = start.elapsed();
-    println!("tokio::mpsc time: {:?}", duration);
+    println!("tokio::mpsc  {} messages in {:?}", num_messages, duration);
 }

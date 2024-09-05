@@ -1,9 +1,15 @@
 [workspace]
 resolver = "2"
 members = [
+    "async_channel_benchmark_lib",
     "benchmark_runner",
+    "concurrent_queue_benchmark",
     "crossbeam_mpsc_benchmark",
     "disruptor_benchmark",
+    "eventador_benchmark_lib",
+    "flume_benchmark_lib",
+    "kanal_benchmark_lib",
+    "loole_benchmark_lib",
     "std_mpsc_benchmark",
     "tokio_mpsc_benchmark",
 ]

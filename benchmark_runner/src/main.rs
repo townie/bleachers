@@ -1,20 +1,48 @@
+use async_channel_benchmark_lib::run_benchmark as async_channel_benchmark;
+use concurrent_queue_benchmark::run_benchmark as concurrent_queue_benchmark;
 use crossbeam_mpsc_benchmark::run_benchmark as crossbeam_benchmark;
 use disruptor_benchmark::run_benchmark as disruptor_benchmark;
+use eventador_benchmark_lib::run_benchmark as eventador_benchmark;
+use flume_benchmark_lib::run_benchmark as flume_benchmark;
+use kanal_benchmark_lib::run_benchmark as kanal_benchmark;
+use loole_benchmark_lib::run_benchmark as loole_benchmark;
 use std_mpsc_benchmark::run_benchmark as std_benchmark;
 use tokio_mpsc_benchmark::run_benchmark as tokio_benchmark;
 
 #[tokio::main]
 async fn main() {
     let num_messages = 1_000_000;
+
+    println!("\nRunning concurrent-queue benchmark...");
+    concurrent_queue_benchmark(num_messages.clone());
+
     println!("Running std::mpsc benchmark...");
-    std_benchmark(num_messages);
+    std_benchmark(num_messages.clone());
 
     println!("\nRunning tokio::mpsc benchmark...");
-    tokio_benchmark(num_messages).await;
+    tokio_benchmark(num_messages.clone()).await;
 
     println!("\nRunning crossbeam::channel benchmark...");
-    crossbeam_benchmark(num_messages);
+    crossbeam_benchmark(num_messages.clone());
 
     println!("\nRunning disruptor benchmark...");
-    disruptor_benchmark(num_messages);
+    disruptor_benchmark(num_messages.clone());
+
+    println!("\nRunning kanal benchmark...");
+    kanal_benchmark(num_messages.clone());
+
+    println!("\nRunning flume benchmark...");
+    flume_benchmark(num_messages.clone());
+
+    println!("\nRunning async-channel benchmark...");
+    async_channel_benchmark(num_messages.clone()).await;
+
+    println!("\nRunning loole benchmark...");
+    loole_benchmark(num_messages.clone());
+
+    if false {
+        // Disabled because so slow
+        println!("\nRunning eventador benchmark...");
+        let _ = eventador_benchmark(num_messages.clone());
+    }
 }

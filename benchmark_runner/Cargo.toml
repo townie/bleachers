@@ -11,3 +11,9 @@ std_mpsc_benchmark = { path = "../std_mpsc_benchmark" }
 tokio_mpsc_benchmark = { path = "../tokio_mpsc_benchmark" }
 crossbeam_mpsc_benchmark = { path = "../crossbeam_mpsc_benchmark" }
 disruptor_benchmark = { path = "../disruptor_benchmark" }
+kanal_benchmark_lib = { path = "../kanal_benchmark_lib" }
+concurrent_queue_benchmark = { path = "../concurrent_queue_benchmark" }
+flume_benchmark_lib = { path = "../flume_benchmark_lib" }
+async_channel_benchmark_lib = { path = "../async_channel_benchmark_lib" }
+loole_benchmark_lib = { path = "../loole_benchmark_lib" }
+eventador_benchmark_lib = { path = "../eventador_benchmark_lib" }

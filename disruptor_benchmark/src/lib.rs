@@ -1,47 +1,51 @@
 // use disruptor::{Consumer, Disruptor, Producer};
+use core::num;
 use disruptor::*;
 use std::thread;
 use std::time::Instant;
 
-/// Benchmarks the disruptor crate by sending and receiving a specified number of messages
-///
-/// # Arguments
-///
+// The event on the ring buffer.
+struct Event {
+    price: i32,
+}
+
 /// * `num_messages` - Number of messages to send and receive during the benchmark
 pub fn run_benchmark(num_messages: i32) {
     const BUFFER_SIZE: usize = 1024; // Size of the disruptor ring buffer
+    let factory = || Event { price: 0 };
 
-    // Create a disruptor with the specified buffer size
-    let mut disruptor = Disruptor::new(BUFFER_SIZE, 1).unwrap(); // Using 1 for wait_strategy
+    // Closure for processing events.
+    let processor = |e: &Event, sequence: Sequence, end_of_batch: bool| {
+        // Your processing logic here.
+        // let inbound = e.price;
+        if e.price == 999999 {
+            println!("Processing event: {} ", e.price,);
+        }
+        // println!("Processing event: {} ", inbound,);
+    };
 
-    // Split the disruptor into producer and consumer handles
-    let (producer, mut consumer) = disruptor.split();
-
-    // Start the benchmark timer
+    let size = 64;
+    let mut producer = disruptor::build_single_producer(size, factory, BusySpin)
+        .handle_events_with(processor)
+        .build();
     let start_time = Instant::now();
 
-    // Create a producer thread to send messages
-    let producer_thread = thread::spawn(move || {
-        for i in 0..num_messages {
-            let sequence = producer.claim_sequence(); // Claim a sequence in the ring buffer
-            producer.publish(sequence, i as u64); // Publish the message (u64 value)
-        }
-    });
+    // Publish single events into the Disruptor via the `Producer` handle.
+    for i in 0..num_messages {
+        producer.publish(|e| {
+            e.price = i;
+        });
+    }
 
-    // Create a consumer thread to receive messages
-    let consumer_thread = thread::spawn(move || {
-        for _ in 0..num_messages {
-            let sequence = consumer.wait_for_sequence(); // Wait for a message
-            let value = consumer.consume(sequence); // Consume the message
-            let _ = value; // Use the value (can be used for validation)
-        }
-    });
+    // Publish a batch of events into the Disruptor.
+    // producer.batch_publish(5, |iter| {
+    //     for e in iter {
+    //         // `iter` is guaranteed to yield 5 events.
+    //         e.price = 42.0;
+    //     }
+    // });
 
-    // Wait for both threads to finish
-    producer_thread.join().unwrap();
-    consumer_thread.join().unwrap();
-
-    // Calculate elapsed time
+    // // Calculate elapsed time
     let elapsed_time = start_time.elapsed();
-    println!("Processed {} messages in {:?}", num_messages, elapsed_time);
+    println!("disruptor {} messages in {:?}", num_messages, elapsed_time);
 }
