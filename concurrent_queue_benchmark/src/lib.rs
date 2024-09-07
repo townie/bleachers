@@ -8,7 +8,7 @@ use std::time::Instant;
 /// # Arguments
 ///
 /// * `num_messages` - Number of messages to send and receive during the benchmark
-pub fn run_benchmark(num_messages: i32) {
+pub fn run_benchmark(num_messages: i32) -> std::time::Duration {
     // Create a concurrent queue
     let queue = Arc::new(ConcurrentQueue::unbounded());
 
@@ -29,11 +29,14 @@ pub fn run_benchmark(num_messages: i32) {
     // Create a consumer thread
     let consumer_thread = thread::spawn(move || {
         loop {
-            let val = consumer_queue.pop().unwrap(); // Pop data from the queue
-            if val == num_messages - 1 {
-                println!("Received last message: {}", val);
-                break;
-            }
+            match consumer_queue.pop() {
+                Ok(val) => {
+                    if val == num_messages - 1 {
+                        break;
+                    }
+                }
+                Err(_) => {}
+            } // Pop data from the queue
         }
     });
 
@@ -43,5 +46,9 @@ pub fn run_benchmark(num_messages: i32) {
 
     // Calculate elapsed time
     let elapsed_time = start_time.elapsed();
-    println!("Processed {} messages in {:?}", num_messages, elapsed_time);
+    println!(
+        "concurrent_queue:: Processed {} messages in {:?}",
+        num_messages, elapsed_time
+    );
+    elapsed_time
 }

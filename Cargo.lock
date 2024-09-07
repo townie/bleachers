@@ -76,6 +76,7 @@ dependencies = [
  "flume_benchmark_lib",
  "kanal_benchmark_lib",
  "loole_benchmark_lib",
+ "mantra_lib",
  "std_mpsc_benchmark",
  "tokio",
  "tokio_mpsc_benchmark",
@@ -386,6 +387,13 @@ name = "loole_benchmark_lib"
 version = "0.1.0"
 dependencies = [
  "loole",
+]
+
+[[package]]
+name = "mantra_lib"
+version = "0.1.0"
+dependencies = [
+ "core_affinity",
 ]
 
 [[package]]

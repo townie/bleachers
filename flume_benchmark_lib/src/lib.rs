@@ -34,5 +34,8 @@ pub fn run_benchmark(num_messages: i32) {
 
     // Calculate elapsed time
     let elapsed_time = start_time.elapsed();
-    println!("Processed {} messages in {:?}", num_messages, elapsed_time);
+    println!(
+        "flume:: Processed {} messages in {:?}",
+        num_messages, elapsed_time
+    );
 }

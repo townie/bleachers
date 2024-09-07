@@ -17,3 +17,4 @@ flume_benchmark_lib = { path = "../flume_benchmark_lib" }
 async_channel_benchmark_lib = { path = "../async_channel_benchmark_lib" }
 loole_benchmark_lib = { path = "../loole_benchmark_lib" }
 eventador_benchmark_lib = { path = "../eventador_benchmark_lib" }
+mantra_lib = { path = "../mantra_lib" }

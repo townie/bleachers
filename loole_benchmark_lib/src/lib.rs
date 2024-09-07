@@ -26,7 +26,6 @@ pub fn run_benchmark(num_messages: i32) {
         loop {
             let val = receiver.recv().unwrap(); // Receive data from the loole channel
             if val == num_messages - 1 {
-                println!("Received last message: {}", val);
                 break;
             }
         }
@@ -38,5 +37,8 @@ pub fn run_benchmark(num_messages: i32) {
 
     // Calculate elapsed time
     let elapsed_time = start_time.elapsed();
-    println!("Processed {} messages in {:?}", num_messages, elapsed_time);
+    println!(
+        "loole:: Processed {} messages in {:?}",
+        num_messages, elapsed_time
+    );
 }

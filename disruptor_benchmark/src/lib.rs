@@ -7,18 +7,19 @@ use std::time::Instant;
 // The event on the ring buffer.
 struct Event {
     price: i32,
+    total: i32,
 }
 
 /// * `num_messages` - Number of messages to send and receive during the benchmark
-pub fn run_benchmark(num_messages: i32) {
+pub fn run_benchmark(num_messages: i32) -> std::time::Duration {
     const BUFFER_SIZE: usize = 1024; // Size of the disruptor ring buffer
-    let factory = || Event { price: 0 };
-
+    let factory = || Event { price: 0, total: 0 };
+    let num = num_messages.clone();
     // Closure for processing events.
     let processor = |e: &Event, sequence: Sequence, end_of_batch: bool| {
         // Your processing logic here.
         // let inbound = e.price;
-        if e.price == 999999 {
+        if e.price == e.total {
             println!("Processing event: {} ", e.price,);
         }
         // println!("Processing event: {} ", inbound,);
@@ -47,5 +48,9 @@ pub fn run_benchmark(num_messages: i32) {
 
     // // Calculate elapsed time
     let elapsed_time = start_time.elapsed();
-    println!("disruptor {} messages in {:?}", num_messages, elapsed_time);
+    println!(
+        "disruptor:: {} messages in {:?}",
+        num_messages, elapsed_time
+    );
+    elapsed_time
 }

@@ -21,8 +21,7 @@ pub fn run_benchmark(num_messages: i32) -> anyhow::Result<()> {
 
             let event = subscriber.recv();
             // println!("Received event: {}", *event);
-            if *event == 999_999 {
-                println!("Received last message: {}", *event);
+            if *event == num_messages - 1 {
                 break;
             }
         }
@@ -44,6 +43,9 @@ pub fn run_benchmark(num_messages: i32) -> anyhow::Result<()> {
 
     // Calculate elapsed time
     let elapsed_time = start_time.elapsed();
-    println!("Processed {} messages in {:?}", num_messages, elapsed_time);
+    println!(
+        "eventador:: Processed {} messages in {:?}",
+        num_messages, elapsed_time
+    );
     Ok(())
 }

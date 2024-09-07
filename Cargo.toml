@@ -9,7 +9,7 @@ members = [
     "eventador_benchmark_lib",
     "flume_benchmark_lib",
     "kanal_benchmark_lib",
-    "loole_benchmark_lib",
+    "loole_benchmark_lib", "mantra_lib",
     "std_mpsc_benchmark",
     "tokio_mpsc_benchmark",
 ]
