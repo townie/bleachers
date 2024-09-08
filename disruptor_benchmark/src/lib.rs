@@ -13,8 +13,11 @@ struct Event {
 /// * `num_messages` - Number of messages to send and receive during the benchmark
 pub fn run_benchmark(num_messages: i32) -> std::time::Duration {
     const BUFFER_SIZE: usize = 1024; // Size of the disruptor ring buffer
-    let factory = || Event { price: 0, total: 0 };
-    let num = num_messages.clone();
+    let factory = || Event {
+        price: 0,
+        total: num_messages,
+    };
+    // let num = num_messages.clone();
     // Closure for processing events.
     let processor = |e: &Event, sequence: Sequence, end_of_batch: bool| {
         // Your processing logic here.

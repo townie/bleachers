@@ -12,11 +12,11 @@ use tokio_mpsc_benchmark::run_benchmark as tokio_benchmark;
 
 #[tokio::main]
 async fn main() {
-    let num_messages = 1_000_000;
+    let num_messages = 1_000;
 
     disruptor_benchmark(num_messages.clone());
 
-    // mantra_benchmark(num_messages.clone());
+    mantra_benchmark(num_messages.clone());
 
     std_benchmark(num_messages.clone());
 
